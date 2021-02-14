@@ -21,6 +21,7 @@ AGun::AGun()
 void AGun::PullTrigger()
 {
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
+	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
 
 	FHitResult Hit;
 	FVector ShotDirection;
@@ -31,6 +32,7 @@ void AGun::PullTrigger()
 		// DrawDebugPoint(GetWorld(), Hit.Location, 20, FColor::Red, true);
 
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BulletImpact, Hit.Location, ShotDirection.Rotation());
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, Hit.Location);
 
 		AActor *HitActor = Hit.GetActor();
 		if (HitActor)
@@ -43,7 +45,7 @@ void AGun::PullTrigger()
 }
 
 // Called when the game starts or when spawned
-void AGun::BginPlay()
+void AGun::BeginPlay()
 {
 	Super::BeginPlay();
 }
@@ -70,13 +72,13 @@ bool AGun::GunTrace(FHitResult &Hit, FVector &ShotDirection)
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(this);
 	Params.AddIgnoredActor(GetOwner());
-	return bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
+	return GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
 }
 
 AController *AGun::GetOwnerController() const
 {
 	APawn *OwnerPawn = Cast<APawn>(GetOwner());
 	if (OwnerPawn == nullptr)
-		return;
+		return nullptr;
 	return OwnerPawn->GetController();
 }

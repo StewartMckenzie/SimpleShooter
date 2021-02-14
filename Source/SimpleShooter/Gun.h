@@ -34,6 +34,13 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UParticleSystem *MuzzleFlash;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase *MuzzleSound;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase *ImpactSound;
+
 	UPROPERTY(EditAnywhere)
 	UParticleSystem *BulletImpact;
 	UPROPERTY(EditAnywhere)
@@ -41,7 +48,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	float Damage = 10;
 
-	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
-AController* GetOwnerController()const;
-
+	bool GunTrace(FHitResult &Hit, FVector &ShotDirection);
+	AController *GetOwnerController() const;
 };
