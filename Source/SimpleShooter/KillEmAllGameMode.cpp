@@ -21,9 +21,8 @@ void AKillEmAllGameMode::PawnKilled(APawn *PawnKilled)
         {
             return;
         }
-
-        EndGame(true);
     }
+    EndGame(true);
 }
 
 void AKillEmAllGameMode::EndGame(bool bIsPlayerWinner)
